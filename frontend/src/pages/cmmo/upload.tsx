@@ -50,7 +50,7 @@ const UploadPage = () => {
             Upload Metadata
           </h1>
           <p className="text-gray-600">
-            Upload your metadata file to begin the harmonization process
+            Upload your CSV metadata file to begin the harmonization process
           </p>
         </div>
 
@@ -61,9 +61,9 @@ const UploadPage = () => {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Upload File</CardTitle>
+                <CardTitle>Upload CSV File</CardTitle>
                 <CardDescription>
-                  Supported formats: CSV, TSV, XLSX (up to 200,000 rows)
+                  CSV format only (up to 200,000 rows, 100 MB max file size)
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -71,13 +71,13 @@ const UploadPage = () => {
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-16 text-center hover:border-primary transition-colors cursor-pointer bg-gray-50">
                     <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-600 mb-2 font-medium">
-                      Drag and drop your file here
+                      Drag and drop your CSV file here
                     </p>
                     <p className="text-sm text-gray-500 mb-6">
                       or click to browse
                     </p>
                     <Button onClick={handleFileUpload} size="lg">
-                      Select File
+                      Select CSV File
                     </Button>
                   </div>
                 ) : (
@@ -98,7 +98,7 @@ const UploadPage = () => {
                           </div>
                           <div>
                             <span className="text-gray-600">Type:</span>
-                            <span className="ml-2 font-medium">{mockUploadedFile.type}</span>
+                            <span className="ml-2 font-medium">CSV</span>
                           </div>
                           <div>
                             <span className="text-gray-600">Rows:</span>
@@ -165,15 +165,15 @@ const UploadPage = () => {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">File Requirements</CardTitle>
+                <CardTitle className="text-base">CSV File Requirements</CardTitle>
               </CardHeader>
               <CardContent className="text-sm space-y-4">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Supported Formats</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">Format</h4>
                   <ul className="space-y-1 text-gray-600">
                     <li>• CSV (Comma-separated values)</li>
-                    <li>• TSV (Tab-separated values)</li>
-                    <li>• XLSX (Excel workbook)</li>
+                    <li>• First row must contain column headers</li>
+                    <li>• UTF-8 encoding recommended</li>
                   </ul>
                 </div>
                 <div>
@@ -184,11 +184,20 @@ const UploadPage = () => {
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Encoding</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">Encoding Support</h4>
                   <ul className="space-y-1 text-gray-600">
                     <li>• UTF-8 (recommended)</li>
                     <li>• ISO-8859-1</li>
                     <li>• Windows-1252</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Edge Cases Handled</h4>
+                  <ul className="space-y-1 text-gray-600">
+                    <li>• Embedded commas in quoted fields</li>
+                    <li>• Embedded newlines in quoted fields</li>
+                    <li>• Mixed line endings (CRLF/LF)</li>
+                    <li>• Leading/trailing whitespace</li>
                   </ul>
                 </div>
               </CardContent>
@@ -203,6 +212,20 @@ const UploadPage = () => {
                     <p className="text-blue-800">
                       Your data is processed securely and never stored permanently. 
                       All files are deleted after processing.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-yellow-200 bg-yellow-50">
+              <CardContent className="p-4">
+                <div className="flex gap-3">
+                  <Info className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    <p className="font-semibold text-yellow-900 mb-1">Coming Soon</p>
+                    <p className="text-yellow-800">
+                      TSV and XLSX support will be available in a future release.
                     </p>
                   </div>
                 </div>

@@ -42,7 +42,7 @@ const Index = () => {
   ];
 
   const workflow = [
-    { step: 1, name: 'Upload', description: 'Upload metadata files (CSV, TSV, XLSX)' },
+    { step: 1, name: 'Upload', description: 'Upload CSV metadata file' },
     { step: 2, name: 'Detect Schema', description: 'AI-powered schema detection' },
     { step: 3, name: 'Map Fields', description: 'Map to canonical schema' },
     { step: 4, name: 'Harmonize', description: 'Generate canonical identifiers' },
@@ -168,7 +168,7 @@ const Index = () => {
               Streamlined Workflow
             </h2>
             <p className="text-lg text-gray-600">
-              Six simple steps from raw metadata to validated, harmonized data
+              Six simple steps from raw CSV metadata to validated, harmonized data
             </p>
           </div>
 
