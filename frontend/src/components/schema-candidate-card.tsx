@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Circle } from 'lucide-react';
 import { SchemaCandidate } from '@/types/cmmo';
 
 interface SchemaCandidateCardProps {
@@ -16,37 +16,46 @@ export const SchemaCandidateCard = ({ schema, selected, onSelect }: SchemaCandid
                           'text-gray-600';
 
   return (
-    <Card className={selected ? 'border-blue-600 border-2' : ''}>
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <h3 className="font-semibold text-lg">{schema.name}</h3>
+    <Card className={`cursor-pointer transition-all hover:shadow-md ${selected ? 'border-2 border-primary shadow-md' : 'border'}`} onClick={onSelect}>
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-semibold text-lg text-gray-900">{schema.name}</h3>
+              {selected ? (
+                <CheckCircle2 className="w-5 h-5 text-primary" />
+              ) : (
+                <Circle className="w-5 h-5 text-gray-300" />
+              )}
+            </div>
             <p className="text-sm text-gray-500">Version {schema.version}</p>
           </div>
-          {selected && <CheckCircle2 className="w-6 h-6 text-blue-600" />}
         </div>
         
-        <div className="mb-3">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm text-gray-600">Confidence:</span>
-            <Badge variant="outline" className={confidenceColor}>
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600">Confidence Score</span>
+            <Badge variant="outline" className={`${confidenceColor} font-semibold`}>
               {(schema.confidence * 100).toFixed(0)}%
             </Badge>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
-              className="bg-blue-600 h-2 rounded-full transition-all"
+              className="bg-primary h-2 rounded-full transition-all"
               style={{ width: `${schema.confidence * 100}%` }}
             />
           </div>
         </div>
 
-        <p className="text-sm text-gray-700 mb-4">{schema.rationale}</p>
+        <p className="text-sm text-gray-600 leading-relaxed">{schema.rationale}</p>
 
-        {!selected && (
-          <Button onClick={onSelect} className="w-full">
-            Select Schema
-          </Button>
+        {selected && (
+          <div className="mt-4 pt-4 border-t">
+            <div className="flex items-center gap-2 text-sm text-primary font-medium">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Selected Schema</span>
+            </div>
+          </div>
         )}
       </CardContent>
     </Card>
