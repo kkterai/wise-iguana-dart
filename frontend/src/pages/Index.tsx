@@ -11,7 +11,7 @@ const Index = () => {
     {
       icon: Database,
       title: 'Canonical Identifiers',
-      description: 'Enforces canonical IDs across Specimen, Block, Slide, ROI/Well, Library, and Run entities for complete traceability'
+      description: 'Enforces canonical IDs across Specimen, Block, Slide, ROI/FOV, Library, and Run entities for complete traceability'
     },
     {
       icon: CheckCircle,
@@ -25,25 +25,26 @@ const Index = () => {
     },
     {
       icon: Zap,
-      title: 'High Performance',
-      description: 'Processes up to 200,000 rows with full validation in under 5 seconds'
+      title: 'Template-Driven Workflow',
+      description: 'Manual template selection and mapping ensures expert control and regulatory compliance'
     }
   ];
 
   const platforms = [
-    { name: 'CosMx', vendor: 'NanoString', category: 'Spatial Transcriptomics' },
-    { name: 'GeoMx DSP', vendor: 'NanoString', category: 'Spatial Profiling' },
-    { name: 'Visium HD', vendor: '10x Genomics', category: 'Spatial Transcriptomics' },
-    { name: 'Xenium', vendor: '10x Genomics', category: 'In Situ' },
-    { name: 'MERSCOPE', vendor: 'Vizgen', category: 'Spatial Genomics' },
-    { name: 'NovaSeq', vendor: 'Illumina', category: 'Sequencing' },
-    { name: 'NextSeq', vendor: 'Illumina', category: 'Sequencing' },
-    { name: 'Chromium', vendor: '10x Genomics', category: 'Library Prep' }
+    { name: 'Illumina NGS', vendor: 'Illumina', category: 'Sequencing', priority: true },
+    { name: '10x Single-Cell', vendor: '10x Genomics', category: 'Single-Cell', priority: true },
+    { name: '10x Multiome', vendor: '10x Genomics', category: 'Single-Cell', priority: true },
+    { name: 'CosMx', vendor: 'Bruker (NanoString)', category: 'Spatial', priority: true },
+    { name: 'GeoMx DSP', vendor: 'Bruker (NanoString)', category: 'Spatial', priority: true },
+    { name: 'Visium HD', vendor: '10x Genomics', category: 'Spatial', priority: true },
+    { name: 'Xenium', vendor: '10x Genomics', category: 'Spatial', priority: true },
+    { name: 'NovaSeq', vendor: 'Illumina', category: 'Sequencing', priority: false },
+    { name: 'NextSeq', vendor: 'Illumina', category: 'Sequencing', priority: false }
   ];
 
   const workflow = [
     { step: 1, name: 'Upload', description: 'Upload CSV metadata file' },
-    { step: 2, name: 'Detect Schema', description: 'AI-powered schema detection' },
+    { step: 2, name: 'Select Template', description: 'Choose schema template' },
     { step: 3, name: 'Map Fields', description: 'Map to canonical schema' },
     { step: 4, name: 'Harmonize', description: 'Generate canonical identifiers' },
     { step: 5, name: 'Validate', description: 'Deterministic validation' },
@@ -62,8 +63,8 @@ const Index = () => {
               Multiomic Data Orchestrator
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Deterministic metadata harmonization for FFPE-based multiomic studies. 
-              Unify data across spatial transcriptomics, sequencing, and library preparation platforms 
+              Deterministic metadata harmonization for Illumina-based NGS, 10x Genomics single-cell, 
+              and leading spatial platforms. Unify data across sequencing and spatial modalities 
               with reproducible, validated results.
             </p>
             <div className="flex items-center gap-4">
@@ -95,8 +96,8 @@ const Index = () => {
               The Challenge
             </h2>
             <p className="text-lg text-gray-600">
-              Fragmented metadata across modalities and vendors creates significant blockers 
-              to data integration, slowing discovery and delaying translation to new treatments.
+              Fragmented metadata across Illumina sequencing, 10x single-cell, and spatial platforms 
+              creates significant blockers to data integration, slowing discovery and delaying translation.
             </p>
           </div>
 
@@ -201,13 +202,13 @@ const Index = () => {
               Supported Platforms
             </h2>
             <p className="text-lg text-gray-600">
-              Harmonize metadata across leading spatial and sequencing platforms
+              Harmonize metadata across Illumina NGS, 10x Genomics, and leading spatial platforms
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {platforms.map((platform, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {platforms.filter(p => p.priority).map((platform, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow border-2 border-primary/20">
                 <CardContent className="p-6 text-center">
                   <div className="font-semibold text-gray-900 mb-1">{platform.name}</div>
                   <div className="text-xs text-gray-500 mb-2">{platform.vendor}</div>
@@ -215,6 +216,19 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-500 mb-4">Additional platforms supported:</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {platforms.filter(p => !p.priority).map((platform, index) => (
+                <Card key={index} className="inline-block">
+                  <CardContent className="p-3">
+                    <span className="text-xs font-medium text-gray-700">{platform.name}</span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -226,8 +240,8 @@ const Index = () => {
             Ready to Harmonize Your Metadata?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Stop wasting time on manual data wrangling. Start integrating your multiomic data 
-            reliably and reproducibly.
+            Stop wasting time on manual data wrangling. Start integrating your Illumina, 10x, 
+            and spatial data reliably and reproducibly.
           </p>
           <Button 
             size="lg" 
@@ -250,7 +264,7 @@ const Index = () => {
                 <span className="font-semibold text-lg">MDO</span>
               </div>
               <p className="text-sm text-gray-400">
-                Multiomic Data Orchestrator - Enterprise metadata harmonization
+                Multiomic Data Orchestrator - Enterprise metadata harmonization for Illumina, 10x, and spatial platforms
               </p>
             </div>
             <div>

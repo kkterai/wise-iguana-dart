@@ -1,11 +1,13 @@
 import { ValidationIssue, FieldMapping, HarmonizationSummary, MetadataFile } from '@/types/cmmo';
 
 export const predefinedSchemas = [
-  { id: 'cosmx-v1.2', name: 'CosMx Spatial Transcriptomics v1.2', vendor: 'NanoString' },
-  { id: 'geomx-v2.0', name: 'GeoMx DSP v2.0', vendor: 'NanoString' },
-  { id: 'visium-v1.5', name: 'Visium HD v1.5', vendor: '10x Genomics' },
-  { id: 'illumina-run-v3.0', name: 'Illumina Sequencing Run v3.0', vendor: 'Illumina' },
-  { id: 'xenium-v1.0', name: 'Xenium In Situ v1.0', vendor: '10x Genomics' }
+  { id: 'illumina-run-v3.0', name: 'Illumina NGS Run v3.0', vendor: 'Illumina', category: 'Sequencing' },
+  { id: '10x-scrna-v2.1', name: '10x Single-Cell RNA v2.1', vendor: '10x Genomics', category: 'Single-Cell' },
+  { id: '10x-multiome-v1.5', name: '10x Multiome (RNA+ATAC) v1.5', vendor: '10x Genomics', category: 'Single-Cell' },
+  { id: 'cosmx-v2.1', name: 'CosMx Spatial Transcriptomics v2.1', vendor: 'Bruker (NanoString)', category: 'Spatial' },
+  { id: 'geomx-v2.0', name: 'GeoMx DSP v2.0', vendor: 'Bruker (NanoString)', category: 'Spatial' },
+  { id: 'visium-hd-v1.5', name: 'Visium HD v1.5', vendor: '10x Genomics', category: 'Spatial' },
+  { id: 'xenium-v1.0', name: 'Xenium In Situ v1.0', vendor: '10x Genomics', category: 'Spatial' }
 ];
 
 export const mockFieldMappings: FieldMapping[] = [

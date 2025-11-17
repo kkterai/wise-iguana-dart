@@ -8,6 +8,7 @@ import { WorkflowStepper } from '@/components/workflow-stepper';
 import { predefinedSchemas, mockUploadedFile } from '@/data/mockData';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 
 const UploadPage = () => {
   const navigate = useNavigate();
@@ -32,12 +33,20 @@ const UploadPage = () => {
   const handleContinue = () => {
     if (selectedSchema) {
       const schema = predefinedSchemas.find(s => s.id === selectedSchema);
-      toast.success('Schema selected', {
+      toast.success('Template selected', {
         description: `Proceeding with ${schema?.name}`
       });
       navigate('/cmmo/mapping');
     }
   };
+
+  const groupedSchemas = predefinedSchemas.reduce((acc, schema) => {
+    if (!acc[schema.category]) {
+      acc[schema.category] = [];
+    }
+    acc[schema.category].push(schema);
+    return acc;
+  }, {} as Record<string, typeof predefinedSchemas>);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,7 +58,7 @@ const UploadPage = () => {
             Upload Metadata
           </h1>
           <p className="text-gray-600">
-            Upload your CSV metadata file and select the appropriate schema template
+            Upload your CSV metadata file and manually select the appropriate schema template
           </p>
         </div>
 
@@ -97,7 +106,7 @@ const UploadPage = () => {
                           </div>
                           <div>
                             <span className="text-gray-600">Type:</span>
-                            <span className="ml-2 font-medium">CSV</span>
+                            <span className="ml-2 font-medium">CSV (UTF-8)</span>
                           </div>
                           <div>
                             <span className="text-gray-600">Rows:</span>
@@ -121,7 +130,7 @@ const UploadPage = () => {
                 <CardHeader>
                   <CardTitle>Step 2: Select Schema Template</CardTitle>
                   <CardDescription>
-                    Choose the schema template that matches your data source
+                    Manually choose the schema template that matches your data source
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -135,13 +144,20 @@ const UploadPage = () => {
                           <SelectValue placeholder="Select a schema template..." />
                         </SelectTrigger>
                         <SelectContent>
-                          {predefinedSchemas.map((schema) => (
-                            <SelectItem key={schema.id} value={schema.id}>
-                              <div className="flex flex-col">
-                                <span className="font-medium">{schema.name}</span>
-                                <span className="text-xs text-gray-500">{schema.vendor}</span>
+                          {Object.entries(groupedSchemas).map(([category, schemas]) => (
+                            <div key={category}>
+                              <div className="px-2 py-1.5 text-xs font-semibold text-gray-500 uppercase">
+                                {category}
                               </div>
-                            </SelectItem>
+                              {schemas.map((schema) => (
+                                <SelectItem key={schema.id} value={schema.id}>
+                                  <div className="flex flex-col">
+                                    <span className="font-medium">{schema.name}</span>
+                                    <span className="text-xs text-gray-500">{schema.vendor}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </div>
                           ))}
                         </SelectContent>
                       </Select>
@@ -149,12 +165,17 @@ const UploadPage = () => {
 
                     {selectedSchema && (
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <p className="text-sm text-blue-900">
-                          <strong>Selected:</strong> {predefinedSchemas.find(s => s.id === selectedSchema)?.name}
-                        </p>
-                        <p className="text-xs text-blue-700 mt-1">
-                          You will map your CSV columns to the required fields in this schema on the next step.
-                        </p>
+                        <div className="flex items-start gap-3">
+                          <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                          <div className="flex-1">
+                            <p className="text-sm text-blue-900 font-medium mb-1">
+                              Template Selected: {predefinedSchemas.find(s => s.id === selectedSchema)?.name}
+                            </p>
+                            <p className="text-xs text-blue-700">
+                              You will manually map your CSV columns to the required fields in this template on the next step.
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )}
 
@@ -205,6 +226,21 @@ const UploadPage = () => {
               </CardContent>
             </Card>
 
+            <Card className="border-yellow-200 bg-yellow-50">
+              <CardContent className="p-4">
+                <div className="flex gap-3">
+                  <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm">
+                    <p className="font-semibold text-yellow-900 mb-1">Manual Template Selection</p>
+                    <p className="text-yellow-800">
+                      You must manually select the correct schema template. No automated detection is performed 
+                      to ensure deterministic, reproducible results.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <Card className="border-blue-200 bg-blue-50">
               <CardContent className="p-4">
                 <div className="flex gap-3">
@@ -225,7 +261,8 @@ const UploadPage = () => {
                 <div className="text-sm">
                   <p className="font-semibold text-gray-900 mb-2">Need Help?</p>
                   <p className="text-gray-600 mb-3">
-                    If you're unsure which schema to select, consult your data source documentation or contact support.
+                    Consult your data source documentation to determine the correct schema template, 
+                    or contact support for guidance.
                   </p>
                   <Button variant="outline" size="sm" className="w-full">
                     View Schema Documentation
