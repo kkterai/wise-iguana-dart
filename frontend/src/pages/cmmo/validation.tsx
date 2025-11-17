@@ -42,9 +42,10 @@ const ValidationPage = () => {
     
     toast.loading('Re-validating file...', { id: 'revalidate' });
     
-    // Simulate re-validation
+    // Simulate re-validation - keep info messages, remove blockers and warnings
     setTimeout(() => {
-      setIssues([]);
+      const remainingInfos = issues.filter(i => i.severity === 'info');
+      setIssues(remainingInfos);
       setIsRevalidating(false);
       toast.success('Validation passed!', {
         id: 'revalidate',
@@ -169,6 +170,11 @@ const ValidationPage = () => {
                     <p className="text-sm text-gray-600">
                       All validation checks passed. You can proceed to export your harmonized data.
                     </p>
+                    {infos.length > 0 && (
+                      <p className="text-xs text-blue-700 bg-blue-50 p-2 rounded border border-blue-200">
+                        {infos.length} informational message{infos.length !== 1 ? 's' : ''} available in the Info tab.
+                      </p>
+                    )}
                     <Button
                       className="w-full"
                       size="sm"
@@ -195,100 +201,85 @@ const ValidationPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {blockers.length === 0 && warnings.length === 0 && infos.length === 0 ? (
-                  <div className="text-center py-16">
-                    <CheckCircle className="w-16 h-16 mx-auto mb-4 text-green-600" />
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                      Validation Successful
-                    </h3>
-                    <p className="text-gray-600 mb-6">
-                      Your metadata has passed all validation checks and is ready for export.
-                    </p>
-                    <Button
-                      size="lg"
-                      onClick={() => navigate('/cmmo/export')}
-                    >
-                      Continue to Export
-                    </Button>
-                  </div>
-                ) : (
-                  <Tabs defaultValue="blockers">
-                    <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="blockers" className="relative">
-                        Blockers
-                        {blockers.length > 0 && (
-                          <Badge variant="destructive" className="ml-2">
-                            {blockers.length}
-                          </Badge>
-                        )}
-                      </TabsTrigger>
-                      <TabsTrigger value="warnings" className="relative">
-                        Warnings
-                        {warnings.length > 0 && (
-                          <Badge variant="secondary" className="ml-2">
-                            {warnings.length}
-                          </Badge>
-                        )}
-                      </TabsTrigger>
-                      <TabsTrigger value="info" className="relative">
-                        Info
-                        {infos.length > 0 && (
-                          <Badge variant="outline" className="ml-2">
-                            {infos.length}
-                          </Badge>
-                        )}
-                      </TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="blockers" className="mt-6">
-                      {blockers.length === 0 ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
-                          <p>No blockers found</p>
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {blockers.map(issue => (
-                            <ValidationIssueCard
-                              key={issue.id}
-                              issue={issue}
-                            />
-                          ))}
-                        </div>
+                <Tabs defaultValue="blockers">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="blockers" className="relative">
+                      Blockers
+                      {blockers.length > 0 && (
+                        <Badge variant="destructive" className="ml-2">
+                          {blockers.length}
+                        </Badge>
                       )}
-                    </TabsContent>
-
-                    <TabsContent value="warnings" className="mt-6">
-                      {warnings.length === 0 ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
-                          <p>No warnings found</p>
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {warnings.map(issue => (
-                            <ValidationIssueCard key={issue.id} issue={issue} />
-                          ))}
-                        </div>
+                    </TabsTrigger>
+                    <TabsTrigger value="warnings" className="relative">
+                      Warnings
+                      {warnings.length > 0 && (
+                        <Badge variant="secondary" className="ml-2">
+                          {warnings.length}
+                        </Badge>
                       )}
-                    </TabsContent>
-
-                    <TabsContent value="info" className="mt-6">
-                      {infos.length === 0 ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <Info className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                          <p>No info messages</p>
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {infos.map(issue => (
-                            <ValidationIssueCard key={issue.id} issue={issue} />
-                          ))}
-                        </div>
+                    </TabsTrigger>
+                    <TabsTrigger value="info" className="relative">
+                      Info
+                      {infos.length > 0 && (
+                        <Badge variant="outline" className="ml-2">
+                          {infos.length}
+                        </Badge>
                       )}
-                    </TabsContent>
-                  </Tabs>
-                )}
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="blockers" className="mt-6">
+                    {blockers.length === 0 ? (
+                      <div className="text-center py-12 text-gray-500">
+                        <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                        <p className="font-medium text-gray-900 mb-1">No blockers found</p>
+                        <p className="text-sm">All critical issues have been resolved</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {blockers.map(issue => (
+                          <ValidationIssueCard
+                            key={issue.id}
+                            issue={issue}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="warnings" className="mt-6">
+                    {warnings.length === 0 ? (
+                      <div className="text-center py-12 text-gray-500">
+                        <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                        <p className="font-medium text-gray-900 mb-1">No warnings found</p>
+                        <p className="text-sm">All warnings have been addressed</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {warnings.map(issue => (
+                          <ValidationIssueCard key={issue.id} issue={issue} />
+                        ))}
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="info" className="mt-6">
+                    {infos.length === 0 ? (
+                      <div className="text-center py-12 text-gray-500">
+                        <Info className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                        <p className="font-medium text-gray-900 mb-1">No info messages</p>
+                        <p className="text-sm">No informational messages to display</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {infos.map(issue => (
+                          <ValidationIssueCard key={issue.id} issue={issue} />
+                        ))}
+                      </div>
+                    )}
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
           </div>
