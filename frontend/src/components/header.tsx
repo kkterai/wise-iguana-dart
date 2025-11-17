@@ -18,7 +18,7 @@ export const Header = () => {
               <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                 <Database className="w-6 h-6 text-white" />
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">MDO</span>
+              <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">MDO</span>
             </button>
             
             <nav className="hidden md:flex items-center gap-8">

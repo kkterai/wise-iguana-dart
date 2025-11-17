@@ -4,84 +4,84 @@
 
 @layer base {
   :root {
-    /* Base colors from Figma palette */
-    --background: 195 20% 82%; /* #CCD6D7 - Light grayish blue */
-    --foreground: 210 30% 11%; /* #131E25 - Very dark blue */
+    /* Teal/Cyan color palette */
+    --background: 180 67% 97%; /* #EFFAFC - 50 */
+    --foreground: 200 48% 15%; /* #132A39 - 950 */
 
     --card: 0 0% 100%; /* White for cards */
-    --card-foreground: 210 30% 11%;
+    --card-foreground: 200 48% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 30% 11%;
+    --popover-foreground: 200 48% 15%;
 
-    --primary: 220 25% 29%; /* #364359 - Dark blue-gray */
+    --primary: 193 59% 41%; /* #2A89A7 - 500 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 245 20% 73%; /* #AFADC7 - Muted purple */
-    --secondary-foreground: 210 30% 11%;
+    --secondary: 192 56% 68%; /* #82CADE - 300 */
+    --secondary-foreground: 200 48% 15%;
 
-    --muted: 195 20% 82%; /* #CCD6D7 */
-    --muted-foreground: 220 25% 29%;
+    --muted: 186 60% 91%; /* #D8F0F5 - 100 */
+    --muted-foreground: 193 59% 41%;
 
-    --accent: 245 20% 73%; /* #AFADC7 */
-    --accent-foreground: 210 30% 11%;
+    --accent: 194 48% 53%; /* #47ABC9 - 400 */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 195 20% 70%;
-    --input: 195 20% 70%;
-    --ring: 220 25% 29%;
+    --border: 191 58% 82%; /* #B5E1EC - 200 */
+    --input: 191 58% 82%;
+    --ring: 193 59% 41%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 210 30% 11%;
-    --sidebar-primary: 220 25% 29%;
+    --sidebar-foreground: 200 48% 15%;
+    --sidebar-primary: 193 59% 41%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 195 20% 82%;
-    --sidebar-accent-foreground: 210 30% 11%;
-    --sidebar-border: 195 20% 70%;
-    --sidebar-ring: 220 25% 29%;
+    --sidebar-accent: 186 60% 91%;
+    --sidebar-accent-foreground: 200 48% 15%;
+    --sidebar-border: 191 58% 82%;
+    --sidebar-ring: 193 59% 41%;
   }
 
   .dark {
-    --background: 210 30% 11%; /* #131E25 */
-    --foreground: 195 20% 82%;
+    --background: 200 48% 15%; /* #132A39 - 950 */
+    --foreground: 180 67% 97%;
 
-    --card: 220 25% 29%;
-    --card-foreground: 195 20% 82%;
+    --card: 199 21% 27%; /* #244355 - 900 */
+    --card-foreground: 180 67% 97%;
 
-    --popover: 220 25% 29%;
-    --popover-foreground: 195 20% 82%;
+    --popover: 199 21% 27%;
+    --popover-foreground: 180 67% 97%;
 
-    --primary: 245 20% 73%; /* #AFADC7 */
-    --primary-foreground: 210 30% 11%;
+    --primary: 193 59% 41%; /* #2A89A7 - 500 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 25% 29%;
-    --secondary-foreground: 195 20% 82%;
+    --secondary: 199 21% 27%;
+    --secondary-foreground: 180 67% 97%;
 
-    --muted: 220 25% 20%;
-    --muted-foreground: 195 20% 82%;
+    --muted: 199 21% 27%;
+    --muted-foreground: 192 56% 68%;
 
-    --accent: 245 20% 73%;
-    --accent-foreground: 210 30% 11%;
+    --accent: 194 48% 53%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 195 20% 82%;
+    --destructive-foreground: 180 67% 97%;
 
-    --border: 220 25% 20%;
-    --input: 220 25% 20%;
-    --ring: 245 20% 73%;
+    --border: 199 21% 27%;
+    --input: 199 21% 27%;
+    --ring: 193 59% 41%;
 
-    --sidebar-background: 210 30% 8%;
-    --sidebar-foreground: 195 20% 82%;
-    --sidebar-primary: 245 20% 73%;
-    --sidebar-primary-foreground: 210 30% 11%;
-    --sidebar-accent: 220 25% 20%;
-    --sidebar-accent-foreground: 195 20% 82%;
-    --sidebar-border: 220 25% 20%;
-    --sidebar-ring: 245 20% 73%;
+    --sidebar-background: 200 48% 10%;
+    --sidebar-foreground: 180 67% 97%;
+    --sidebar-primary: 193 59% 41%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 199 21% 27%;
+    --sidebar-accent-foreground: 180 67% 97%;
+    --sidebar-border: 199 21% 27%;
+    --sidebar-ring: 193 59% 41%;
   }
 }
 
@@ -102,21 +102,21 @@
 
 @layer utilities {
   .gradient-primary {
-    background: linear-gradient(135deg, #364359 0%, #AFADC7 100%);
+    background: linear-gradient(135deg, #2A89A7 0%, #47ABC9 100%);
   }
   
   .gradient-secondary {
-    background: linear-gradient(135deg, #AFADC7 0%, #CCD6D7 100%);
+    background: linear-gradient(135deg, #47ABC9 0%, #82CADE 100%);
   }
   
   .gradient-accent {
-    background: linear-gradient(135deg, #364359 0%, #131E25 100%);
+    background: linear-gradient(135deg, #277493 0%, #2A89A7 100%);
   }
   
   .glass-effect {
-    background: rgba(204, 214, 215, 0.7);
+    background: rgba(239, 250, 252, 0.7);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(204, 214, 215, 0.3);
+    border: 1px solid rgba(181, 225, 236, 0.3);
   }
   
   .card-hover {

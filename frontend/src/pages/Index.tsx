@@ -12,25 +12,25 @@ const Index = () => {
       icon: Database,
       title: 'Canonical Identifiers',
       description: 'Enforces canonical IDs across Specimen, Block, Slide, ROI/FOV, Library, and Run entities for complete traceability',
-      gradient: 'from-[#364359] to-[#AFADC7]'
+      gradient: 'from-[#2A89A7] to-[#47ABC9]'
     },
     {
       icon: CheckCircle,
       title: 'Deterministic Validation',
       description: 'Rules-based validation engine with zero heuristics ensures reproducible results every time',
-      gradient: 'from-[#AFADC7] to-[#CCD6D7]'
+      gradient: 'from-[#47ABC9] to-[#82CADE]'
     },
     {
       icon: Shield,
       title: 'Referential Integrity',
       description: 'Validates entity relationships and ensures complete chain of custody across all modalities',
-      gradient: 'from-[#364359] to-[#131E25]'
+      gradient: 'from-[#277493] to-[#2A89A7]'
     },
     {
       icon: Zap,
       title: 'Template-Driven Workflow',
       description: 'Manual template selection and mapping ensures expert control and regulatory compliance',
-      gradient: 'from-[#131E25] to-[#364359]'
+      gradient: 'from-[#265E78] to-[#277493]'
     }
   ];
 
@@ -65,7 +65,7 @@ const Index = () => {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-background via-white to-secondary/20">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzNjQzNTkiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-40" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyQTg5QTciIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-40" />
         
         <div className="relative max-w-7xl mx-auto px-6 py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
@@ -76,7 +76,7 @@ const Index = () => {
             
             <h1 className="text-5xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
               Multiomic Data
-              <span className="block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
                 Orchestrator
               </span>
             </h1>
@@ -109,7 +109,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
+                  <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
                     {stat.value}
                   </div>
                   <div className="text-lg font-semibold text-foreground mb-1">{stat.label}</div>
@@ -155,7 +155,7 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-xl card-hover bg-gradient-to-br from-secondary/20 to-secondary/40">
+            <Card className="border-0 shadow-xl card-hover bg-gradient-to-br from-secondary/20 to-accent/30">
               <CardContent className="p-8">
                 <div className="text-5xl font-bold text-primary mb-3">6-12mo</div>
                 <div className="text-xl font-semibold text-foreground mb-3">Delayed Discovery</div>
@@ -169,7 +169,7 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-24 bg-gradient-to-br from-background to-secondary/10">
+      <section className="py-24 bg-gradient-to-br from-background to-muted">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
@@ -211,7 +211,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {workflow.map((item, index) => (
               <Card key={index} className="border-0 shadow-lg card-hover bg-white relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform" />
                 <CardContent className="p-8 relative">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 gradient-primary text-white rounded-xl flex items-center justify-center text-xl font-bold shadow-lg">
@@ -229,7 +229,7 @@ const Index = () => {
       </section>
 
       {/* Supported Platforms */}
-      <section className="py-24 bg-gradient-to-br from-background to-secondary/10">
+      <section className="py-24 bg-gradient-to-br from-background to-muted">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
