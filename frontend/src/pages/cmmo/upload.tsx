@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { Upload, FileText, CheckCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle, Info } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { WorkflowStepper } from '@/components/workflow-stepper';
 import { SchemaCandidateCard } from '@/components/schema-candidate-card';
+import { SchemaDetailsModal } from '@/components/schema-details-modal';
 import { mockSchemas, mockUploadedFile } from '@/data/mockData';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const UploadPage = () => {
   const navigate = useNavigate();
   const [fileUploaded, setFileUploaded] = useState(false);
   const [selectedSchema, setSelectedSchema] = useState<number | null>(null);
+  const [showSchemaDetails, setShowSchemaDetails] = useState(false);
 
   const steps = [
     { id: 'upload', name: 'Upload', status: fileUploaded ? 'complete' : 'active' as const },
@@ -22,10 +25,16 @@ const UploadPage = () => {
 
   const handleFileUpload = () => {
     setFileUploaded(true);
+    toast.success('File uploaded successfully', {
+      description: `${mockUploadedFile.name} - ${mockUploadedFile.rows.toLocaleString()} rows detected`
+    });
   };
 
   const handleContinue = () => {
     if (selectedSchema !== null) {
+      toast.success('Schema selected', {
+        description: `Proceeding with ${mockSchemas[selectedSchema].name}`
+      });
       navigate('/cmmo/mapping');
     }
   };
@@ -35,7 +44,7 @@ const UploadPage = () => {
       <div className="max-w-7xl mx-auto p-6">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Cross-Platform Multiomic Metadata Orchestrator
+            Multiomic Data Orchestrator
           </h1>
           <p className="text-gray-600">
             Deterministic metadata harmonization for FFPE-based multiomic studies
@@ -132,10 +141,22 @@ const UploadPage = () => {
           <div className="mt-8">
             <Card>
               <CardHeader>
-                <CardTitle>Schema Detection</CardTitle>
-                <CardDescription>
-                  Top 3 schema candidates detected based on your file structure
-                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Schema Detection</CardTitle>
+                    <CardDescription>
+                      Top 3 schema candidates detected based on your file structure
+                    </CardDescription>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowSchemaDetails(true)}
+                  >
+                    <Info className="w-4 h-4 mr-2" />
+                    View Schema Details
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -161,6 +182,15 @@ const UploadPage = () => {
           </div>
         )}
       </div>
+
+      {selectedSchema !== null && (
+        <SchemaDetailsModal
+          open={showSchemaDetails}
+          onOpenChange={setShowSchemaDetails}
+          schemaName={mockSchemas[selectedSchema].name}
+          schemaVersion={mockSchemas[selectedSchema].version}
+        />
+      )}
     </div>
   );
 };

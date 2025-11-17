@@ -64,7 +64,7 @@ const Index = () => {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Cross-Platform Multiomic<br />Metadata Orchestrator
+            Multiomic Data Orchestrator
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Deterministic metadata harmonization for FFPE-based multiomic studies across spatial transcriptomics, 
@@ -196,7 +196,7 @@ const Index = () => {
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-center mb-4">The Solution</h2>
           <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-            CMMO provides deterministic, reproducible metadata harmonization that eliminates manual data wrangling 
+            Multiomic Data Orchestrator provides deterministic, reproducible metadata harmonization that eliminates manual data wrangling 
             and ensures reliable cross-platform integration
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
