@@ -1,36 +1,23 @@
-import { SchemaCandidate, ValidationIssue, FieldMapping, HarmonizationSummary, MetadataFile } from '@/types/cmmo';
+import { ValidationIssue, FieldMapping, HarmonizationSummary, MetadataFile } from '@/types/cmmo';
 
-export const mockSchemas: SchemaCandidate[] = [
-  {
-    name: 'CosMx Spatial Transcriptomics',
-    version: '2.1.0',
-    confidence: 0.92,
-    rationale: 'Detected Slide_ID, ROI_ID, and FOV_ID columns with CosMx-specific barcode patterns'
-  },
-  {
-    name: 'Illumina Sequencing Run',
-    version: '1.8.3',
-    confidence: 0.78,
-    rationale: 'Found Run_ID, Library_ID, and Index sequences matching Illumina format'
-  },
-  {
-    name: 'GeoMx DSP',
-    version: '1.5.2',
-    confidence: 0.65,
-    rationale: 'Identified ROI and AOI identifiers typical of GeoMx workflows'
-  }
+export const predefinedSchemas = [
+  { id: 'cosmx-v1.2', name: 'CosMx Spatial Transcriptomics v1.2', vendor: 'NanoString' },
+  { id: 'geomx-v2.0', name: 'GeoMx DSP v2.0', vendor: 'NanoString' },
+  { id: 'visium-v1.5', name: 'Visium HD v1.5', vendor: '10x Genomics' },
+  { id: 'illumina-run-v3.0', name: 'Illumina Sequencing Run v3.0', vendor: 'Illumina' },
+  { id: 'xenium-v1.0', name: 'Xenium In Situ v1.0', vendor: '10x Genomics' }
 ];
 
 export const mockFieldMappings: FieldMapping[] = [
-  { sourceField: 'Sample_Name', targetField: 'Specimen_ID', confidence: 0.95, required: true, mapped: true },
-  { sourceField: 'Block_Number', targetField: 'Block_ID', confidence: 0.88, required: true, mapped: true },
-  { sourceField: 'Slide_Barcode', targetField: 'Slide_ID', confidence: 0.98, required: true, mapped: true },
-  { sourceField: 'ROI', targetField: 'ROI_ID', confidence: 0.92, required: true, mapped: true },
-  { sourceField: 'Library_Name', targetField: 'Library_ID', confidence: 0.85, required: true, mapped: true },
-  { sourceField: 'Sequencing_Run', targetField: 'Run_ID', confidence: 0.90, required: true, mapped: true },
-  { sourceField: 'Tissue_Type', targetField: 'Tissue_Type', confidence: 0.99, required: false, mapped: true },
-  { sourceField: 'Collection_Date', targetField: 'Collection_Date', confidence: 0.87, required: false, mapped: true },
-  { sourceField: 'Platform', targetField: 'Platform', confidence: 0.94, required: true, mapped: true },
+  { sourceField: 'Sample_Name', targetField: 'Specimen_ID', confidence: 0.95, required: true, mapped: false },
+  { sourceField: 'Block_Number', targetField: 'Block_ID', confidence: 0.88, required: true, mapped: false },
+  { sourceField: 'Slide_Barcode', targetField: 'Slide_ID', confidence: 0.98, required: true, mapped: false },
+  { sourceField: 'ROI', targetField: 'ROI_ID', confidence: 0.92, required: true, mapped: false },
+  { sourceField: 'Library_Name', targetField: 'Library_ID', confidence: 0.85, required: true, mapped: false },
+  { sourceField: 'Sequencing_Run', targetField: 'Run_ID', confidence: 0.90, required: true, mapped: false },
+  { sourceField: 'Tissue_Type', targetField: 'Tissue_Type', confidence: 0.99, required: false, mapped: false },
+  { sourceField: 'Collection_Date', targetField: 'Collection_Date', confidence: 0.87, required: false, mapped: false },
+  { sourceField: 'Platform', targetField: 'Platform', confidence: 0.94, required: true, mapped: false },
   { sourceField: 'Chemistry_Version', targetField: 'Kit_Version', confidence: 0.72, required: false, mapped: false }
 ];
 
@@ -144,6 +131,27 @@ export const mockUploadedFile: MetadataFile = {
   rows: 1247,
   columns: 18
 };
+
+export const mockUploadedColumns = [
+  'Sample_Name',
+  'Block_Number',
+  'Slide_Barcode',
+  'ROI',
+  'Library_Name',
+  'Sequencing_Run',
+  'Tissue_Type',
+  'Collection_Date',
+  'Platform',
+  'Chemistry_Version',
+  'Operator',
+  'Notes',
+  'QC_Status',
+  'Processing_Date',
+  'Batch_ID',
+  'Project_ID',
+  'Institution',
+  'Study_ID'
+];
 
 export const sampleTableData = [
   {

@@ -1,20 +1,18 @@
 import { useState } from 'react';
-import { Upload, FileText, CheckCircle, Info, AlertCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Header } from '@/components/header';
 import { WorkflowStepper } from '@/components/workflow-stepper';
-import { SchemaCandidateCard } from '@/components/schema-candidate-card';
-import { SchemaDetailsModal } from '@/components/schema-details-modal';
-import { mockSchemas, mockUploadedFile } from '@/data/mockData';
+import { predefinedSchemas, mockUploadedFile } from '@/data/mockData';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 const UploadPage = () => {
   const navigate = useNavigate();
   const [fileUploaded, setFileUploaded] = useState(false);
-  const [selectedSchema, setSelectedSchema] = useState<number | null>(null);
-  const [showSchemaDetails, setShowSchemaDetails] = useState(false);
+  const [selectedSchema, setSelectedSchema] = useState<string>('');
 
   const steps = [
     { id: 'upload', name: 'Upload', status: fileUploaded ? 'complete' : 'active' as const },
@@ -32,9 +30,10 @@ const UploadPage = () => {
   };
 
   const handleContinue = () => {
-    if (selectedSchema !== null) {
+    if (selectedSchema) {
+      const schema = predefinedSchemas.find(s => s.id === selectedSchema);
       toast.success('Schema selected', {
-        description: `Proceeding with ${mockSchemas[selectedSchema].name}`
+        description: `Proceeding with ${schema?.name}`
       });
       navigate('/cmmo/mapping');
     }
@@ -50,7 +49,7 @@ const UploadPage = () => {
             Upload Metadata
           </h1>
           <p className="text-gray-600">
-            Upload your CSV metadata file to begin the harmonization process
+            Upload your CSV metadata file and select the appropriate schema template
           </p>
         </div>
 
@@ -58,12 +57,12 @@ const UploadPage = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
           {/* Upload Section */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Upload CSV File</CardTitle>
+                <CardTitle>Step 1: Upload CSV File</CardTitle>
                 <CardDescription>
-                  CSV format only (up to 200,000 rows, 100 MB max file size)
+                  Upload a clean, standard CSV file (UTF-8 encoding, up to 200,000 rows)
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -116,46 +115,57 @@ const UploadPage = () => {
               </CardContent>
             </Card>
 
-            {/* Schema Detection */}
+            {/* Schema Selection */}
             {fileUploaded && (
-              <Card className="mt-6">
+              <Card>
                 <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle>Schema Detection</CardTitle>
-                      <CardDescription>
-                        AI-powered schema detection identified these candidates
-                      </CardDescription>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setShowSchemaDetails(true)}
-                    >
-                      <Info className="w-4 h-4 mr-2" />
-                      View Details
-                    </Button>
-                  </div>
+                  <CardTitle>Step 2: Select Schema Template</CardTitle>
+                  <CardDescription>
+                    Choose the schema template that matches your data source
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {mockSchemas.map((schema, index) => (
-                      <SchemaCandidateCard
-                        key={index}
-                        schema={schema}
-                        selected={selectedSchema === index}
-                        onSelect={() => setSelectedSchema(index)}
-                      />
-                    ))}
-                  </div>
-
-                  {selectedSchema !== null && (
-                    <div className="mt-6 pt-6 border-t flex justify-end">
-                      <Button size="lg" onClick={handleContinue}>
-                        Continue to Field Mapping
-                      </Button>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">
+                        Schema Template
+                      </label>
+                      <Select value={selectedSchema} onValueChange={setSelectedSchema}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a schema template..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {predefinedSchemas.map((schema) => (
+                            <SelectItem key={schema.id} value={schema.id}>
+                              <div className="flex flex-col">
+                                <span className="font-medium">{schema.name}</span>
+                                <span className="text-xs text-gray-500">{schema.vendor}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
-                  )}
+
+                    {selectedSchema && (
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <p className="text-sm text-blue-900">
+                          <strong>Selected:</strong> {predefinedSchemas.find(s => s.id === selectedSchema)?.name}
+                        </p>
+                        <p className="text-xs text-blue-700 mt-1">
+                          You will map your CSV columns to the required fields in this schema on the next step.
+                        </p>
+                      </div>
+                    )}
+
+                    {selectedSchema && (
+                      <div className="pt-4 border-t flex justify-end">
+                        <Button size="lg" onClick={handleContinue}>
+                          Continue to Field Mapping
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             )}
@@ -171,9 +181,10 @@ const UploadPage = () => {
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">Format</h4>
                   <ul className="space-y-1 text-gray-600">
-                    <li>• CSV (Comma-separated values)</li>
-                    <li>• First row must contain column headers</li>
-                    <li>• UTF-8 encoding recommended</li>
+                    <li>• Standard CSV (comma-separated)</li>
+                    <li>• UTF-8 encoding required</li>
+                    <li>• First row must be column headers</li>
+                    <li>• No merged cells or formulas</li>
                   </ul>
                 </div>
                 <div>
@@ -184,20 +195,11 @@ const UploadPage = () => {
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Encoding Support</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">Preparing Your File</h4>
                   <ul className="space-y-1 text-gray-600">
-                    <li>• UTF-8 (recommended)</li>
-                    <li>• ISO-8859-1</li>
-                    <li>• Windows-1252</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Edge Cases Handled</h4>
-                  <ul className="space-y-1 text-gray-600">
-                    <li>• Embedded commas in quoted fields</li>
-                    <li>• Embedded newlines in quoted fields</li>
-                    <li>• Mixed line endings (CRLF/LF)</li>
-                    <li>• Leading/trailing whitespace</li>
+                    <li>• Export from Excel as CSV (UTF-8)</li>
+                    <li>• Remove any formatting or formulas</li>
+                    <li>• Ensure clean, standard structure</li>
                   </ul>
                 </div>
               </CardContent>
@@ -218,31 +220,22 @@ const UploadPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-yellow-200 bg-yellow-50">
+            <Card className="border-gray-200 bg-gray-50">
               <CardContent className="p-4">
-                <div className="flex gap-3">
-                  <Info className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <p className="font-semibold text-yellow-900 mb-1">Coming Soon</p>
-                    <p className="text-yellow-800">
-                      TSV and XLSX support will be available in a future release.
-                    </p>
-                  </div>
+                <div className="text-sm">
+                  <p className="font-semibold text-gray-900 mb-2">Need Help?</p>
+                  <p className="text-gray-600 mb-3">
+                    If you're unsure which schema to select, consult your data source documentation or contact support.
+                  </p>
+                  <Button variant="outline" size="sm" className="w-full">
+                    View Schema Documentation
+                  </Button>
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
-
-      {selectedSchema !== null && (
-        <SchemaDetailsModal
-          open={showSchemaDetails}
-          onOpenChange={setShowSchemaDetails}
-          schemaName={mockSchemas[selectedSchema].name}
-          schemaVersion={mockSchemas[selectedSchema].version}
-        />
-      )}
     </div>
   );
 };

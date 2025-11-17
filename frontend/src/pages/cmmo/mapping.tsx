@@ -1,18 +1,17 @@
 import { useState } from 'react';
-import { ArrowRight, Search, CheckCircle, AlertCircle } from 'lucide-react';
+import { CheckCircle, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { WorkflowStepper } from '@/components/workflow-stepper';
-import { mockFieldMappings } from '@/data/mockData';
+import { mockFieldMappings, mockUploadedColumns } from '@/data/mockData';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 const MappingPage = () => {
   const navigate = useNavigate();
-  const [mappings, setMappings] = useState(mockFieldMappings);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [mappings, setMappings] = useState<Record<string, string>>({});
 
   const steps = [
     { id: 'upload', name: 'Upload', status: 'complete' as const },
@@ -22,18 +21,17 @@ const MappingPage = () => {
     { id: 'export', name: 'Export', status: 'pending' as const }
   ];
 
-  const unmappedRequired = mappings.filter(m => m.required && !m.mapped).length;
-  const canProgress = unmappedRequired === 0;
+  const requiredFields = mockFieldMappings.filter(m => m.required);
+  const optionalFields = mockFieldMappings.filter(m => !m.required);
+  
+  const requiredMapped = requiredFields.filter(f => mappings[f.targetField]).length;
+  const canProgress = requiredMapped === requiredFields.length;
 
-  const filteredMappings = mappings.filter(m =>
-    m.sourceField.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    m.targetField.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleToggleMapping = (index: number) => {
-    const newMappings = [...mappings];
-    newMappings[index].mapped = !newMappings[index].mapped;
-    setMappings(newMappings);
+  const handleMapping = (targetField: string, sourceColumn: string) => {
+    setMappings(prev => ({
+      ...prev,
+      [targetField]: sourceColumn
+    }));
   };
 
   return (
@@ -42,7 +40,7 @@ const MappingPage = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Field Mapping</h1>
           <p className="text-gray-600">
-            Map source fields to canonical schema fields
+            Map your CSV columns to the required schema fields
           </p>
         </div>
 
@@ -50,78 +48,106 @@ const MappingPage = () => {
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Mapping List */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-6">
+            {/* Required Fields */}
             <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>Field Mappings</CardTitle>
-                    <CardDescription>
-                      {mappings.filter(m => m.mapped).length} of {mappings.length} fields mapped
-                    </CardDescription>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Search className="w-4 h-4 text-gray-400" />
-                    <Input
-                      placeholder="Search fields..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-64"
-                    />
-                  </div>
-                </div>
+                <CardTitle>Required Fields</CardTitle>
+                <CardDescription>
+                  All required fields must be mapped to continue
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  {filteredMappings.map((mapping, index) => (
+                <div className="space-y-4">
+                  {requiredFields.map((field) => (
                     <div
-                      key={index}
+                      key={field.targetField}
                       className={cn(
-                        "border rounded-lg p-4 transition-all",
-                        mapping.mapped ? "bg-white border-gray-200" : "bg-gray-50 border-gray-300",
-                        mapping.required && !mapping.mapped && "border-red-300 bg-red-50"
+                        "border rounded-lg p-4",
+                        mappings[field.targetField] ? "bg-white border-gray-200" : "bg-red-50 border-red-300"
                       )}
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-start gap-4">
                         <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-mono text-sm font-medium text-gray-900">
-                              {mapping.sourceField}
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="font-medium text-gray-900">
+                              {field.targetField}
                             </span>
-                            {mapping.required && (
-                              <Badge variant="destructive" className="text-xs">
-                                Required
-                              </Badge>
-                            )}
+                            <Badge variant="destructive" className="text-xs">
+                              Required
+                            </Badge>
                           </div>
-                          <div className="text-xs text-gray-500">
-                            Confidence: {(mapping.confidence * 100).toFixed(0)}%
-                          </div>
+                          <Select
+                            value={mappings[field.targetField] || ''}
+                            onValueChange={(value) => handleMapping(field.targetField, value)}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select column from your CSV..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {mockUploadedColumns.map((col) => (
+                                <SelectItem key={col} value={col}>
+                                  {col}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </div>
+                        {mappings[field.targetField] && (
+                          <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-                        <ArrowRight className="w-5 h-5 text-gray-400" />
-
+            {/* Optional Fields */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Optional Fields</CardTitle>
+                <CardDescription>
+                  These fields are optional but recommended
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {optionalFields.map((field) => (
+                    <div
+                      key={field.targetField}
+                      className="border rounded-lg p-4 bg-white"
+                    >
+                      <div className="flex items-start gap-4">
                         <div className="flex-1">
-                          <div className="font-mono text-sm font-medium text-blue-600">
-                            {mapping.targetField}
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="font-medium text-gray-900">
+                              {field.targetField}
+                            </span>
+                            <Badge variant="secondary" className="text-xs">
+                              Optional
+                            </Badge>
                           </div>
-                          <div className="text-xs text-gray-500">Canonical field</div>
+                          <Select
+                            value={mappings[field.targetField] || ''}
+                            onValueChange={(value) => handleMapping(field.targetField, value)}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select column from your CSV..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="__skip__">Skip this field</SelectItem>
+                              {mockUploadedColumns.map((col) => (
+                                <SelectItem key={col} value={col}>
+                                  {col}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </div>
-
-                        <Button
-                          size="sm"
-                          variant={mapping.mapped ? "outline" : "default"}
-                          onClick={() => handleToggleMapping(index)}
-                        >
-                          {mapping.mapped ? (
-                            <>
-                              <CheckCircle className="w-4 h-4 mr-1" />
-                              Mapped
-                            </>
-                          ) : (
-                            "Map"
-                          )}
-                        </Button>
+                        {mappings[field.targetField] && mappings[field.targetField] !== '__skip__' && (
+                          <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                        )}
                       </div>
                     </div>
                   ))}
@@ -134,22 +160,25 @@ const MappingPage = () => {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Mapping Summary</CardTitle>
+                <CardTitle>Mapping Progress</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-600">Progress</span>
+                      <span className="text-gray-600">Required Fields</span>
                       <span className="font-medium">
-                        {mappings.filter(m => m.mapped).length}/{mappings.length}
+                        {requiredMapped}/{requiredFields.length}
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-blue-600 h-2 rounded-full transition-all"
+                        className={cn(
+                          "h-2 rounded-full transition-all",
+                          canProgress ? "bg-green-600" : "bg-red-600"
+                        )}
                         style={{
-                          width: `${(mappings.filter(m => m.mapped).length / mappings.length) * 100}%`
+                          width: `${(requiredMapped / requiredFields.length) * 100}%`
                         }}
                       />
                     </div>
@@ -157,24 +186,20 @@ const MappingPage = () => {
 
                   <div className="pt-4 border-t space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Required fields</span>
-                      <span className="font-medium">
-                        {mappings.filter(m => m.required).length}
-                      </span>
+                      <span className="text-gray-600">Total required</span>
+                      <span className="font-medium">{requiredFields.length}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Optional fields</span>
-                      <span className="font-medium">
-                        {mappings.filter(m => !m.required).length}
-                      </span>
+                      <span className="text-gray-600">Total optional</span>
+                      <span className="font-medium">{optionalFields.length}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Unmapped required</span>
                       <span className={cn(
                         "font-medium",
-                        unmappedRequired > 0 ? "text-red-600" : "text-green-600"
+                        canProgress ? "text-green-600" : "text-red-600"
                       )}>
-                        {unmappedRequired}
+                        {requiredFields.length - requiredMapped}
                       </span>
                     </div>
                   </div>
@@ -211,7 +236,7 @@ const MappingPage = () => {
                       <span className="font-medium">Cannot proceed</span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      {unmappedRequired} required field{unmappedRequired !== 1 ? 's' : ''} must be mapped before continuing.
+                      {requiredFields.length - requiredMapped} required field{requiredFields.length - requiredMapped !== 1 ? 's' : ''} must be mapped before continuing.
                     </p>
                   </div>
                 )}

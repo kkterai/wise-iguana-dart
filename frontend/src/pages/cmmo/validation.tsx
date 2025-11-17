@@ -7,11 +7,12 @@ import { WorkflowStepper } from '@/components/workflow-stepper';
 import { ValidationIssueCard } from '@/components/validation-issue-card';
 import { mockValidationIssues } from '@/data/mockData';
 import { useNavigate } from 'react-router-dom';
-import { AlertCircle, AlertTriangle, Info, CheckCircle } from 'lucide-react';
+import { AlertCircle, AlertTriangle, Info, CheckCircle, Download, RotateCcw } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ValidationPage = () => {
   const navigate = useNavigate();
-  const [issues, setIssues] = useState(mockValidationIssues);
+  const [issues] = useState(mockValidationIssues);
 
   const steps = [
     { id: 'upload', name: 'Upload', status: 'complete' as const },
@@ -27,8 +28,17 @@ const ValidationPage = () => {
 
   const canExport = blockers.length === 0;
 
-  const handleFix = (issueId: string) => {
-    setIssues(issues.filter(i => i.id !== issueId));
+  const handleDownloadReport = () => {
+    toast.success('Validation report downloaded', {
+      description: 'Review the issues and fix them in your spreadsheet application'
+    });
+  };
+
+  const handleReupload = () => {
+    toast.info('Ready for re-upload', {
+      description: 'Upload your corrected CSV file to re-validate'
+    });
+    navigate('/cmmo/upload');
   };
 
   return (
@@ -84,36 +94,50 @@ const ValidationPage = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Readiness Gate</CardTitle>
+                <CardTitle className="text-base">Fix & Re-upload</CardTitle>
               </CardHeader>
-              <CardContent>
-                {canExport ? (
-                  <div className="space-y-4">
+              <CardContent className="space-y-3">
+                {blockers.length > 0 ? (
+                  <>
+                    <p className="text-sm text-gray-600">
+                      Download the validation report, fix the issues in your spreadsheet, then re-upload.
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      onClick={handleDownloadReport}
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download Report (CSV)
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      onClick={handleReupload}
+                    >
+                      <RotateCcw className="w-4 h-4 mr-2" />
+                      Re-upload Corrected File
+                    </Button>
+                  </>
+                ) : (
+                  <>
                     <div className="flex items-center gap-2 text-green-600">
                       <CheckCircle className="w-5 h-5" />
-                      <span className="font-medium">Ready to export</span>
+                      <span className="font-medium text-sm">Ready to export</span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      0 blockers. All required validations passed.
+                      All validation checks passed.
                     </p>
                     <Button
                       className="w-full"
-                      size="lg"
+                      size="sm"
                       onClick={() => navigate('/cmmo/export')}
                     >
                       Continue to Export
                     </Button>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-red-600">
-                      <AlertCircle className="w-5 h-5" />
-                      <span className="font-medium">Cannot export</span>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      {blockers.length} blocker{blockers.length !== 1 ? 's' : ''} must be resolved.
-                    </p>
-                  </div>
+                  </>
                 )}
               </CardContent>
             </Card>
@@ -125,7 +149,7 @@ const ValidationPage = () => {
               <CardHeader>
                 <CardTitle>Validation Issues</CardTitle>
                 <CardDescription>
-                  Review and remediate issues before export
+                  Review issues and download the report to fix them in your spreadsheet
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -169,7 +193,6 @@ const ValidationPage = () => {
                           <ValidationIssueCard
                             key={issue.id}
                             issue={issue}
-                            onFix={handleFix}
                           />
                         ))}
                       </div>

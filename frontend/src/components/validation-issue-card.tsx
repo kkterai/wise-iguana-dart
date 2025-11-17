@@ -1,16 +1,14 @@
 import { AlertCircle, AlertTriangle, Info } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { ValidationIssue } from '@/types/cmmo';
 import { cn } from '@/lib/utils';
 
 interface ValidationIssueCardProps {
   issue: ValidationIssue;
-  onFix?: (issueId: string) => void;
 }
 
-export const ValidationIssueCard = ({ issue, onFix }: ValidationIssueCardProps) => {
+export const ValidationIssueCard = ({ issue }: ValidationIssueCardProps) => {
   const getSeverityIcon = () => {
     switch (issue.severity) {
       case 'blocker':
@@ -65,11 +63,6 @@ export const ValidationIssueCard = ({ issue, onFix }: ValidationIssueCardProps) 
               </div>
             )}
           </div>
-          {issue.severity === 'blocker' && onFix && (
-            <Button size="sm" onClick={() => onFix(issue.id)}>
-              Fix
-            </Button>
-          )}
         </div>
       </CardContent>
     </Card>
