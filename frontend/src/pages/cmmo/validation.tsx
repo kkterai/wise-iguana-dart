@@ -7,12 +7,14 @@ import { WorkflowStepper } from '@/components/workflow-stepper';
 import { ValidationIssueCard } from '@/components/validation-issue-card';
 import { mockValidationIssues } from '@/data/mockData';
 import { useNavigate } from 'react-router-dom';
-import { AlertCircle, AlertTriangle, Info, CheckCircle, Download, RotateCcw } from 'lucide-react';
+import { AlertCircle, AlertTriangle, Info, CheckCircle, Download, Upload, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ValidationPage = () => {
   const navigate = useNavigate();
-  const [issues] = useState(mockValidationIssues);
+  const [issues, setIssues] = useState(mockValidationIssues);
+  const [reuploadedFile, setReuploadedFile] = useState<string | null>(null);
+  const [isRevalidating, setIsRevalidating] = useState(false);
 
   const steps = [
     { id: 'upload', name: 'Upload', status: 'complete' as const },
@@ -30,15 +32,25 @@ const ValidationPage = () => {
 
   const handleDownloadReport = () => {
     toast.success('Validation report downloaded', {
-      description: 'Review the issues and fix them in your spreadsheet application'
+      description: 'Fix the issues in your spreadsheet and re-upload the corrected file below'
     });
   };
 
-  const handleReupload = () => {
-    toast.info('Ready for re-upload', {
-      description: 'Upload your corrected CSV file to re-validate'
-    });
-    navigate('/cmmo/upload');
+  const handleFileReupload = () => {
+    setReuploadedFile('CosMx_Metadata_2024Q1_Fixed.csv');
+    setIsRevalidating(true);
+    
+    toast.loading('Re-validating file...', { id: 'revalidate' });
+    
+    // Simulate re-validation
+    setTimeout(() => {
+      setIssues([]);
+      setIsRevalidating(false);
+      toast.success('Validation passed!', {
+        id: 'revalidate',
+        description: 'All blockers have been resolved. You can now proceed to export.'
+      });
+    }, 2000);
   };
 
   return (
@@ -92,16 +104,20 @@ const ValidationPage = () => {
               </CardContent>
             </Card>
 
+            {/* Fix & Re-upload Card */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Fix & Re-upload</CardTitle>
+                <CardTitle className="text-base">
+                  {blockers.length > 0 ? 'Fix & Re-upload' : 'Validation Status'}
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {blockers.length > 0 ? (
                   <>
                     <p className="text-sm text-gray-600">
-                      Download the validation report, fix the issues in your spreadsheet, then re-upload.
+                      Download the validation report, fix the issues in your spreadsheet, then re-upload the corrected file.
                     </p>
+                    
                     <Button
                       variant="outline"
                       size="sm"
@@ -111,15 +127,38 @@ const ValidationPage = () => {
                       <Download className="w-4 h-4 mr-2" />
                       Download Report (CSV)
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full"
-                      onClick={handleReupload}
-                    >
-                      <RotateCcw className="w-4 h-4 mr-2" />
-                      Re-upload Corrected File
-                    </Button>
+
+                    <div className="pt-3 border-t">
+                      <p className="text-xs text-gray-600 mb-3 font-medium">
+                        Re-upload corrected file:
+                      </p>
+                      
+                      {!reuploadedFile ? (
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer bg-white">
+                          <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                          <p className="text-xs text-gray-600 mb-3">
+                            Upload corrected CSV
+                          </p>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={handleFileReupload}
+                            disabled={isRevalidating}
+                          >
+                            {isRevalidating ? 'Validating...' : 'Select File'}
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                          <div className="flex items-center gap-2">
+                            <FileText className="w-4 h-4 text-green-600" />
+                            <span className="text-xs font-medium text-green-900">
+                              {reuploadedFile}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </>
                 ) : (
                   <>
@@ -128,7 +167,7 @@ const ValidationPage = () => {
                       <span className="font-medium text-sm">Ready to export</span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      All validation checks passed.
+                      All validation checks passed. You can proceed to export your harmonized data.
                     </p>
                     <Button
                       className="w-full"
@@ -149,86 +188,107 @@ const ValidationPage = () => {
               <CardHeader>
                 <CardTitle>Validation Issues</CardTitle>
                 <CardDescription>
-                  Review issues and download the report to fix them in your spreadsheet
+                  {blockers.length > 0 
+                    ? 'Review issues and download the report to fix them in your spreadsheet'
+                    : 'All validation checks passed successfully'
+                  }
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Tabs defaultValue="blockers">
-                  <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="blockers" className="relative">
-                      Blockers
-                      {blockers.length > 0 && (
-                        <Badge variant="destructive" className="ml-2">
-                          {blockers.length}
-                        </Badge>
-                      )}
-                    </TabsTrigger>
-                    <TabsTrigger value="warnings" className="relative">
-                      Warnings
-                      {warnings.length > 0 && (
-                        <Badge variant="secondary" className="ml-2">
-                          {warnings.length}
-                        </Badge>
-                      )}
-                    </TabsTrigger>
-                    <TabsTrigger value="info" className="relative">
-                      Info
-                      {infos.length > 0 && (
-                        <Badge variant="outline" className="ml-2">
-                          {infos.length}
-                        </Badge>
-                      )}
-                    </TabsTrigger>
-                  </TabsList>
+                {blockers.length === 0 && warnings.length === 0 && infos.length === 0 ? (
+                  <div className="text-center py-16">
+                    <CheckCircle className="w-16 h-16 mx-auto mb-4 text-green-600" />
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Validation Successful
+                    </h3>
+                    <p className="text-gray-600 mb-6">
+                      Your metadata has passed all validation checks and is ready for export.
+                    </p>
+                    <Button
+                      size="lg"
+                      onClick={() => navigate('/cmmo/export')}
+                    >
+                      Continue to Export
+                    </Button>
+                  </div>
+                ) : (
+                  <Tabs defaultValue="blockers">
+                    <TabsList className="grid w-full grid-cols-3">
+                      <TabsTrigger value="blockers" className="relative">
+                        Blockers
+                        {blockers.length > 0 && (
+                          <Badge variant="destructive" className="ml-2">
+                            {blockers.length}
+                          </Badge>
+                        )}
+                      </TabsTrigger>
+                      <TabsTrigger value="warnings" className="relative">
+                        Warnings
+                        {warnings.length > 0 && (
+                          <Badge variant="secondary" className="ml-2">
+                            {warnings.length}
+                          </Badge>
+                        )}
+                      </TabsTrigger>
+                      <TabsTrigger value="info" className="relative">
+                        Info
+                        {infos.length > 0 && (
+                          <Badge variant="outline" className="ml-2">
+                            {infos.length}
+                          </Badge>
+                        )}
+                      </TabsTrigger>
+                    </TabsList>
 
-                  <TabsContent value="blockers" className="mt-6">
-                    {blockers.length === 0 ? (
-                      <div className="text-center py-12 text-gray-500">
-                        <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
-                        <p>No blockers found</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {blockers.map(issue => (
-                          <ValidationIssueCard
-                            key={issue.id}
-                            issue={issue}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </TabsContent>
+                    <TabsContent value="blockers" className="mt-6">
+                      {blockers.length === 0 ? (
+                        <div className="text-center py-12 text-gray-500">
+                          <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                          <p>No blockers found</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {blockers.map(issue => (
+                            <ValidationIssueCard
+                              key={issue.id}
+                              issue={issue}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </TabsContent>
 
-                  <TabsContent value="warnings" className="mt-6">
-                    {warnings.length === 0 ? (
-                      <div className="text-center py-12 text-gray-500">
-                        <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
-                        <p>No warnings found</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {warnings.map(issue => (
-                          <ValidationIssueCard key={issue.id} issue={issue} />
-                        ))}
-                      </div>
-                    )}
-                  </TabsContent>
+                    <TabsContent value="warnings" className="mt-6">
+                      {warnings.length === 0 ? (
+                        <div className="text-center py-12 text-gray-500">
+                          <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                          <p>No warnings found</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {warnings.map(issue => (
+                            <ValidationIssueCard key={issue.id} issue={issue} />
+                          ))}
+                        </div>
+                      )}
+                    </TabsContent>
 
-                  <TabsContent value="info" className="mt-6">
-                    {infos.length === 0 ? (
-                      <div className="text-center py-12 text-gray-500">
-                        <Info className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                        <p>No info messages</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {infos.map(issue => (
-                          <ValidationIssueCard key={issue.id} issue={issue} />
-                        ))}
-                      </div>
-                    )}
-                  </TabsContent>
-                </Tabs>
+                    <TabsContent value="info" className="mt-6">
+                      {infos.length === 0 ? (
+                        <div className="text-center py-12 text-gray-500">
+                          <Info className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                          <p>No info messages</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {infos.map(issue => (
+                            <ValidationIssueCard key={issue.id} issue={issue} />
+                          ))}
+                        </div>
+                      )}
+                    </TabsContent>
+                  </Tabs>
+                )}
               </CardContent>
             </Card>
           </div>
