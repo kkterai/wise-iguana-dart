@@ -1,0 +1,51 @@
+{
+  "id": "illumina_run_v1",
+  "name": "Illumina NGS Run",
+  "version": "1.0",
+  "description": "Schema template for Illumina NGS sequencing run data",
+  "entity_type": "Run",
+  "fields": [
+    {
+      "name": "Run_ID",
+      "type": "string",
+      "required": true,
+      "description": "Unique identifier for the sequencing run"
+    },
+    {
+      "name": "Sample_ID",
+      "type": "string",
+      "required": true,
+      "description": "Sample identifier"
+    },
+    {
+      "name": "Library_ID",
+      "type": "string",
+      "required": true,
+      "description": "Library identifier"
+    },
+    {
+      "name": "Instrument_ID",
+      "type": "string",
+      "required": false,
+      "description": "Sequencing instrument identifier"
+    },
+    {
+      "name": "Run_Date",
+      "type": "date",
+      "required": false,
+      "description": "Date the run was performed"
+    },
+    {
+      "name": "Read_Length",
+      "type": "integer",
+      "required": false,
+      "description": "Read length in base pairs"
+    },
+    {
+      "name": "Total_Reads",
+      "type": "integer",
+      "required": false,
+      "description": "Total number of reads"
+    }
+  ]
+}
