@@ -48,7 +48,7 @@ const UploadPage = () => {
   }, {} as Record<string, typeof predefinedSchemas>);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F3FF] via-[#EDE9FE] to-[#E0E7FF]">
+    <div className="min-h-screen bg-gradient-to-br from-[#EFF6FF] via-[#DBEAFE] to-[#BFDBFE]">
       <Header />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -75,8 +75,8 @@ const UploadPage = () => {
               </CardHeader>
               <CardContent>
                 {!fileUploaded ? (
-                  <div className="border-2 border-dashed border-[#DDD6FE] rounded-lg p-16 text-center hover:border-[#6366F1] transition-colors cursor-pointer bg-white">
-                    <Upload className="w-16 h-16 text-[#6366F1]/40 mx-auto mb-4" />
+                  <div className="border-2 border-dashed border-[#BFDBFE] rounded-lg p-16 text-center hover:border-[#3B82F6] transition-colors cursor-pointer bg-white">
+                    <Upload className="w-16 h-16 text-[#3B82F6]/40 mx-auto mb-4" />
                     <p className="text-gray-900 mb-2 font-medium">
                       Drag and drop your CSV file here
                     </p>
@@ -163,9 +163,9 @@ const UploadPage = () => {
                     </div>
 
                     {selectedSchema && (
-                      <div className="bg-[#EDE9FE] border border-[#DDD6FE] rounded-lg p-4">
+                      <div className="bg-[#DBEAFE] border border-[#BFDBFE] rounded-lg p-4">
                         <div className="flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-[#6366F1] mt-0.5 flex-shrink-0" />
+                          <CheckCircle className="w-5 h-5 text-[#3B82F6] mt-0.5 flex-shrink-0" />
                           <div className="flex-1">
                             <p className="text-sm text-gray-900 font-medium mb-1">
                               Template Selected: {predefinedSchemas.find(s => s.id === selectedSchema)?.name}
@@ -240,10 +240,10 @@ const UploadPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-[#DDD6FE] bg-[#EDE9FE] shadow-lg">
+            <Card className="border-[#BFDBFE] bg-[#DBEAFE] shadow-lg">
               <CardContent className="p-4">
                 <div className="flex gap-3">
-                  <AlertCircle className="w-5 h-5 text-[#6366F1] flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="w-5 h-5 text-[#3B82F6] flex-shrink-0 mt-0.5" />
                   <div className="text-sm">
                     <p className="font-semibold text-gray-900 mb-1">Data Privacy</p>
                     <p className="text-gray-700">
@@ -263,7 +263,7 @@ const UploadPage = () => {
                     Consult your data source documentation to determine the correct schema template, 
                     or contact support for guidance.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full border-[#6366F1] text-[#6366F1] hover:bg-[#6366F1]/5">
+                  <Button variant="outline" size="sm" className="w-full border-[#3B82F6] text-[#3B82F6] hover:bg-[#3B82F6]/5">
                     View Schema Documentation
                   </Button>
                 </div>

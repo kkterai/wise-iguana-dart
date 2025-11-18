@@ -12,25 +12,25 @@ const Index = () => {
       icon: Database,
       title: 'Canonical Identifiers',
       description: 'Enforces canonical IDs across Specimen, Block, Slide, ROI/FOV, Library, and Run entities for complete traceability',
-      gradient: 'from-[#6366F1] to-[#8B5CF6]'
+      gradient: 'from-[#3B82F6] to-[#2563EB]'
     },
     {
       icon: CheckCircle,
       title: 'Deterministic Validation',
       description: 'Rules-based validation engine with zero heuristics ensures reproducible results every time',
-      gradient: 'from-[#3B82F6] to-[#6366F1]'
+      gradient: 'from-[#60A5FA] to-[#3B82F6]'
     },
     {
       icon: Shield,
       title: 'Referential Integrity',
       description: 'Validates entity relationships and ensures complete chain of custody across all modalities',
-      gradient: 'from-[#8B5CF6] to-[#A855F7]'
+      gradient: 'from-[#2563EB] to-[#1D4ED8]'
     },
     {
       icon: Zap,
       title: 'Template-Driven Workflow',
       description: 'Manual template selection and mapping ensures expert control and regulatory compliance',
-      gradient: 'from-[#6366F1] to-[#3B82F6]'
+      gradient: 'from-[#1E40AF] to-[#2563EB]'
     }
   ];
 
@@ -60,23 +60,23 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F3FF] via-[#EDE9FE] to-[#E0E7FF]">
+    <div className="min-h-screen bg-gradient-to-br from-[#EFF6FF] via-[#DBEAFE] to-[#BFDBFE]">
       <Header />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM2MzY2RjEiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-40" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzQjgyRjYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-40" />
         
         <div className="relative max-w-7xl mx-auto px-6 py-24 lg:py-32">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm text-[#6366F1] text-sm font-medium mb-8 border border-[#DDD6FE] shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm text-[#3B82F6] text-sm font-medium mb-8 border border-[#BFDBFE] shadow-sm">
               <Sparkles className="w-4 h-4" />
               <span>Enterprise Metadata Harmonization</span>
             </div>
             
             <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
               Multiomic Data
-              <span className="block bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#A855F7] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] bg-clip-text text-transparent">
                 Orchestrator
               </span>
             </h1>
@@ -99,7 +99,7 @@ const Index = () => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="text-lg px-8 h-14 rounded-xl border-2 border-[#6366F1] text-[#6366F1] hover:bg-[#6366F1]/5 bg-white/80 backdrop-blur-sm"
+                className="text-lg px-8 h-14 rounded-xl border-2 border-[#3B82F6] text-[#3B82F6] hover:bg-[#3B82F6]/5 bg-white/80 backdrop-blur-sm"
               >
                 View Documentation
               </Button>
@@ -109,7 +109,7 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent mb-2">
+                  <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#3B82F6] to-[#2563EB] bg-clip-text text-transparent mb-2">
                     {stat.value}
                   </div>
                   <div className="text-lg font-semibold text-gray-900 mb-1">{stat.label}</div>
@@ -155,9 +155,9 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-xl card-hover bg-gradient-to-br from-[#EDE9FE] to-[#DDD6FE]">
+            <Card className="border-0 shadow-xl card-hover bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE]">
               <CardContent className="p-8">
-                <div className="text-5xl font-bold text-[#6366F1] mb-3">6-12mo</div>
+                <div className="text-5xl font-bold text-[#3B82F6] mb-3">6-12mo</div>
                 <div className="text-xl font-semibold text-gray-900 mb-3">Delayed Discovery</div>
                 <p className="text-gray-700 leading-relaxed">
                   Critical insights delayed by months due to inability to integrate cross-platform data
@@ -169,7 +169,7 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-24 bg-gradient-to-br from-[#F5F3FF] to-[#EDE9FE]">
+      <section className="py-24 bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
@@ -211,13 +211,13 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {workflow.map((item, index) => (
               <Card key={index} className="border-0 shadow-lg card-hover bg-white relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#EDE9FE] to-[#DDD6FE] rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#DBEAFE] to-[#BFDBFE] rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform" />
                 <CardContent className="p-8 relative">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 gradient-primary text-white rounded-xl flex items-center justify-center text-xl font-bold shadow-lg">
                       {item.step}
                     </div>
-                    <item.icon className="w-6 h-6 text-[#6366F1]/40" />
+                    <item.icon className="w-6 h-6 text-[#3B82F6]/40" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{item.name}</h3>
                   <p className="text-gray-700">{item.description}</p>
@@ -229,7 +229,7 @@ const Index = () => {
       </section>
 
       {/* Supported Platforms */}
-      <section className="py-24 bg-gradient-to-br from-[#F5F3FF] to-[#EDE9FE]">
+      <section className="py-24 bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
@@ -249,7 +249,7 @@ const Index = () => {
                   </div>
                   <div className="font-semibold text-gray-900 mb-2">{platform.name}</div>
                   <div className="text-xs text-gray-600 mb-2">{platform.vendor}</div>
-                  <div className="inline-block px-3 py-1 rounded-full bg-[#EDE9FE] text-[#6366F1] text-xs font-medium">
+                  <div className="inline-block px-3 py-1 rounded-full bg-[#DBEAFE] text-[#3B82F6] text-xs font-medium">
                     {platform.category}
                   </div>
                 </CardContent>
@@ -274,7 +274,7 @@ const Index = () => {
           <Button 
             size="lg" 
             onClick={() => navigate('/cmmo/upload')}
-            className="bg-white text-[#6366F1] hover:bg-gray-100 text-lg px-10 h-14 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-105"
+            className="bg-white text-[#3B82F6] hover:bg-gray-100 text-lg px-10 h-14 rounded-xl shadow-2xl hover:shadow-3xl transition-all hover:scale-105"
           >
             <Upload className="w-5 h-5 mr-2" />
             Get Started Now
