@@ -7,7 +7,7 @@ export const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="bg-white/80 backdrop-blur-lg border-b border-border sticky top-0 z-50 shadow-sm">
+    <header className="bg-white/80 backdrop-blur-lg border-b border-[#DDD6FE] sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center gap-12">
@@ -18,7 +18,7 @@ export const Header = () => {
               <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                 <Database className="w-6 h-6 text-white" />
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">MDO</span>
+              <span className="font-bold text-xl bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent">MDO</span>
             </button>
             
             <nav className="hidden md:flex items-center gap-8">
@@ -26,8 +26,8 @@ export const Header = () => {
                 onClick={() => navigate('/')}
                 className={`text-sm font-medium transition-colors ${
                   location.pathname === '/' 
-                    ? 'text-primary' 
-                    : 'text-foreground/60 hover:text-primary'
+                    ? 'text-[#6366F1]' 
+                    : 'text-gray-600 hover:text-[#6366F1]'
                 }`}
               >
                 Home
@@ -36,15 +36,15 @@ export const Header = () => {
                 onClick={() => navigate('/cmmo/upload')}
                 className={`text-sm font-medium transition-colors ${
                   location.pathname.startsWith('/cmmo') 
-                    ? 'text-primary' 
-                    : 'text-foreground/60 hover:text-primary'
+                    ? 'text-[#6366F1]' 
+                    : 'text-gray-600 hover:text-[#6366F1]'
                 }`}
               >
                 Harmonize Data
               </button>
               <a
                 href="#"
-                className="text-sm font-medium text-foreground/60 hover:text-primary transition-colors"
+                className="text-sm font-medium text-gray-600 hover:text-[#6366F1] transition-colors"
               >
                 Documentation
               </a>

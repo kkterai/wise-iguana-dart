@@ -48,15 +48,15 @@ const UploadPage = () => {
   }, {} as Record<string, typeof predefinedSchemas>);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-[#F5F3FF] via-[#EDE9FE] to-[#E0E7FF]">
       <Header />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Upload Metadata
           </h1>
-          <p className="text-foreground/70">
+          <p className="text-gray-700">
             Upload your CSV metadata file and manually select the appropriate schema template
           </p>
         </div>
@@ -66,21 +66,21 @@ const UploadPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
           {/* Upload Section */}
           <div className="lg:col-span-2 space-y-6">
-            <Card className="border-border shadow-lg">
+            <Card className="border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-foreground">Step 1: Upload CSV File</CardTitle>
-                <CardDescription className="text-foreground/60">
+                <CardTitle className="text-gray-900">Step 1: Upload CSV File</CardTitle>
+                <CardDescription className="text-gray-600">
                   Upload a clean, standard CSV file (UTF-8 encoding, up to 200,000 rows)
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {!fileUploaded ? (
-                  <div className="border-2 border-dashed border-border rounded-lg p-16 text-center hover:border-primary transition-colors cursor-pointer bg-white">
-                    <Upload className="w-16 h-16 text-primary/40 mx-auto mb-4" />
-                    <p className="text-foreground mb-2 font-medium">
+                  <div className="border-2 border-dashed border-[#DDD6FE] rounded-lg p-16 text-center hover:border-[#6366F1] transition-colors cursor-pointer bg-white">
+                    <Upload className="w-16 h-16 text-[#6366F1]/40 mx-auto mb-4" />
+                    <p className="text-gray-900 mb-2 font-medium">
                       Drag and drop your CSV file here
                     </p>
-                    <p className="text-sm text-foreground/60 mb-6">
+                    <p className="text-sm text-gray-600 mb-6">
                       or click to browse
                     </p>
                     <Button onClick={handleFileUpload} size="lg" className="gradient-primary text-white">
@@ -93,27 +93,27 @@ const UploadPage = () => {
                       <CheckCircle className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-3">
-                          <FileText className="w-5 h-5 text-foreground/60" />
-                          <span className="font-semibold text-foreground">
+                          <FileText className="w-5 h-5 text-gray-600" />
+                          <span className="font-semibold text-gray-900">
                             {mockUploadedFile.name}
                           </span>
                         </div>
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
-                            <span className="text-foreground/60">Size:</span>
-                            <span className="ml-2 font-medium text-foreground">{(mockUploadedFile.size / 1024 / 1024).toFixed(2)} MB</span>
+                            <span className="text-gray-600">Size:</span>
+                            <span className="ml-2 font-medium text-gray-900">{(mockUploadedFile.size / 1024 / 1024).toFixed(2)} MB</span>
                           </div>
                           <div>
-                            <span className="text-foreground/60">Type:</span>
-                            <span className="ml-2 font-medium text-foreground">CSV (UTF-8)</span>
+                            <span className="text-gray-600">Type:</span>
+                            <span className="ml-2 font-medium text-gray-900">CSV (UTF-8)</span>
                           </div>
                           <div>
-                            <span className="text-foreground/60">Rows:</span>
-                            <span className="ml-2 font-medium text-foreground">{mockUploadedFile.rows.toLocaleString()}</span>
+                            <span className="text-gray-600">Rows:</span>
+                            <span className="ml-2 font-medium text-gray-900">{mockUploadedFile.rows.toLocaleString()}</span>
                           </div>
                           <div>
-                            <span className="text-foreground/60">Columns:</span>
-                            <span className="ml-2 font-medium text-foreground">{mockUploadedFile.columns}</span>
+                            <span className="text-gray-600">Columns:</span>
+                            <span className="ml-2 font-medium text-gray-900">{mockUploadedFile.columns}</span>
                           </div>
                         </div>
                       </div>
@@ -125,17 +125,17 @@ const UploadPage = () => {
 
             {/* Schema Selection */}
             {fileUploaded && (
-              <Card className="border-border shadow-lg">
+              <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-foreground">Step 2: Select Schema Template</CardTitle>
-                  <CardDescription className="text-foreground/60">
+                  <CardTitle className="text-gray-900">Step 2: Select Schema Template</CardTitle>
+                  <CardDescription className="text-gray-600">
                     Manually choose the schema template that matches your data source
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-2 block">
+                      <label className="text-sm font-medium text-gray-900 mb-2 block">
                         Schema Template
                       </label>
                       <Select value={selectedSchema} onValueChange={setSelectedSchema}>
@@ -145,14 +145,14 @@ const UploadPage = () => {
                         <SelectContent>
                           {Object.entries(groupedSchemas).map(([category, schemas]) => (
                             <div key={category}>
-                              <div className="px-2 py-1.5 text-xs font-semibold text-foreground/60 uppercase">
+                              <div className="px-2 py-1.5 text-xs font-semibold text-gray-600 uppercase">
                                 {category}
                               </div>
                               {schemas.map((schema) => (
                                 <SelectItem key={schema.id} value={schema.id}>
                                   <div className="flex flex-col">
                                     <span className="font-medium">{schema.name}</span>
-                                    <span className="text-xs text-foreground/60">{schema.vendor}</span>
+                                    <span className="text-xs text-gray-600">{schema.vendor}</span>
                                   </div>
                                 </SelectItem>
                               ))}
@@ -163,14 +163,14 @@ const UploadPage = () => {
                     </div>
 
                     {selectedSchema && (
-                      <div className="bg-secondary/20 border border-secondary rounded-lg p-4">
+                      <div className="bg-[#EDE9FE] border border-[#DDD6FE] rounded-lg p-4">
                         <div className="flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                          <CheckCircle className="w-5 h-5 text-[#6366F1] mt-0.5 flex-shrink-0" />
                           <div className="flex-1">
-                            <p className="text-sm text-foreground font-medium mb-1">
+                            <p className="text-sm text-gray-900 font-medium mb-1">
                               Template Selected: {predefinedSchemas.find(s => s.id === selectedSchema)?.name}
                             </p>
-                            <p className="text-xs text-foreground/70">
+                            <p className="text-xs text-gray-700">
                               You will manually map your CSV columns to the required fields in this template on the next step.
                             </p>
                           </div>
@@ -193,14 +193,14 @@ const UploadPage = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <Card className="border-border shadow-lg">
+            <Card className="border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-base text-foreground">CSV File Requirements</CardTitle>
+                <CardTitle className="text-base text-gray-900">CSV File Requirements</CardTitle>
               </CardHeader>
               <CardContent className="text-sm space-y-4">
                 <div>
-                  <h4 className="font-semibold text-foreground mb-2">Format</h4>
-                  <ul className="space-y-1 text-foreground/70">
+                  <h4 className="font-semibold text-gray-900 mb-2">Format</h4>
+                  <ul className="space-y-1 text-gray-700">
                     <li>• Standard CSV (comma-separated)</li>
                     <li>• UTF-8 encoding required</li>
                     <li>• First row must be column headers</li>
@@ -208,15 +208,15 @@ const UploadPage = () => {
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-foreground mb-2">Size Limits</h4>
-                  <ul className="space-y-1 text-foreground/70">
+                  <h4 className="font-semibold text-gray-900 mb-2">Size Limits</h4>
+                  <ul className="space-y-1 text-gray-700">
                     <li>• Maximum 200,000 rows</li>
                     <li>• Maximum 100 MB file size</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-foreground mb-2">Preparing Your File</h4>
-                  <ul className="space-y-1 text-foreground/70">
+                  <h4 className="font-semibold text-gray-900 mb-2">Preparing Your File</h4>
+                  <ul className="space-y-1 text-gray-700">
                     <li>• Export from Excel as CSV (UTF-8)</li>
                     <li>• Remove any formatting or formulas</li>
                     <li>• Ensure clean, standard structure</li>
@@ -240,13 +240,13 @@ const UploadPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-secondary bg-secondary/10 shadow-lg">
+            <Card className="border-[#DDD6FE] bg-[#EDE9FE] shadow-lg">
               <CardContent className="p-4">
                 <div className="flex gap-3">
-                  <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="w-5 h-5 text-[#6366F1] flex-shrink-0 mt-0.5" />
                   <div className="text-sm">
-                    <p className="font-semibold text-foreground mb-1">Data Privacy</p>
-                    <p className="text-foreground/70">
+                    <p className="font-semibold text-gray-900 mb-1">Data Privacy</p>
+                    <p className="text-gray-700">
                       Your data is processed securely and never stored permanently. 
                       All files are deleted after processing.
                     </p>
@@ -255,15 +255,15 @@ const UploadPage = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-border bg-white shadow-lg">
+            <Card className="border-0 bg-white shadow-lg">
               <CardContent className="p-4">
                 <div className="text-sm">
-                  <p className="font-semibold text-foreground mb-2">Need Help?</p>
-                  <p className="text-foreground/70 mb-3">
+                  <p className="font-semibold text-gray-900 mb-2">Need Help?</p>
+                  <p className="text-gray-700 mb-3">
                     Consult your data source documentation to determine the correct schema template, 
                     or contact support for guidance.
                   </p>
-                  <Button variant="outline" size="sm" className="w-full border-primary text-primary hover:bg-primary/5">
+                  <Button variant="outline" size="sm" className="w-full border-[#6366F1] text-[#6366F1] hover:bg-[#6366F1]/5">
                     View Schema Documentation
                   </Button>
                 </div>
